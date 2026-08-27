@@ -1,6 +1,6 @@
 import { Link, useLocation } from 'react-router-dom'
 import { useState } from 'react'
-import { CircleDot, Search, BarChart3, User, Menu, X, ChevronDown } from 'lucide-react'
+import { CircleDot, Search, BarChart3, Heart, PlusCircle, User, Menu, X, ChevronDown } from 'lucide-react'
 import { useExchangeStore } from '@/store/exchangeStore'
 import { users } from '@/data/users'
 import { cn } from '@/lib/cn'
@@ -9,6 +9,8 @@ const navLinks = [
   { to: '/', label: 'Home', icon: Search },
   { to: '/discover', label: 'Discover', icon: CircleDot },
   { to: '/compare', label: 'Compare', icon: BarChart3 },
+  { to: '/wishlist', label: 'Wishlist', icon: Heart },
+  { to: '/sell', label: 'Sell', icon: PlusCircle },
 ]
 
 export function Navbar() {
@@ -19,13 +21,13 @@ export function Navbar() {
 
   return (
     <nav className="sticky top-0 z-50 bg-card/95 backdrop-blur-sm border-b border-ink/10">
-      <div className="container flex items-center justify-between h-14">
+      <div className="w-full px-6 flex items-center justify-between h-14">
         <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity duration-150">
-          <CircleDot size={22} className="text-moss" />
-          <span className="font-display text-base font-semibold text-ink">Campus Circular</span>
+          <CircleDot size={24} className="text-moss" />
+          <span className="font-display text-lg font-semibold text-ink">Campus Circular</span>
         </Link>
 
-        <div className="hidden md:flex items-center gap-1">
+        <div className="hidden md:flex items-center gap-6">
           {navLinks.map((link) => {
             const Icon = link.icon
             const isActive = location.pathname === link.to
@@ -34,13 +36,13 @@ export function Navbar() {
                 key={link.to}
                 to={link.to}
                 className={cn(
-                  'flex items-center gap-1.5 px-3 py-1.5 rounded-[4px] text-sm transition-colors duration-150',
+                  'flex items-center gap-2 px-3 py-1.5 rounded-[4px] text-base transition-colors duration-150',
                   isActive
                     ? 'bg-moss/10 text-moss font-medium'
                     : 'text-ink/60 hover:text-ink hover:bg-ink/5'
                 )}
               >
-                <Icon size={15} />
+                <Icon size={16} />
                 {link.label}
               </Link>
             )
@@ -129,7 +131,7 @@ export function Navbar() {
                 to={link.to}
                 onClick={() => setMobileOpen(false)}
                 className={cn(
-                  'flex items-center gap-2 px-3 py-2.5 rounded-[4px] text-sm transition-colors duration-150',
+                  'flex items-center gap-2 px-3 py-2.5 rounded-[4px] text-[15px] transition-colors duration-150',
                   isActive
                     ? 'bg-moss/10 text-moss font-medium'
                     : 'text-ink/60 hover:text-ink'

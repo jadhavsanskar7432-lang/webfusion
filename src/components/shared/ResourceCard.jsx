@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { MapPin, Star, Clock } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
+import { useUnsplashImage } from '@/hooks/useUnsplashImage'
 import { cn } from '@/lib/cn'
 
 const categoryColors = {
@@ -31,6 +32,8 @@ const categoryEmoji = {
 }
 
 export function ResourceCard({ resource, className }) {
+  const { imageUrl } = useUnsplashImage(resource.category, resource.id)
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 8 }}
@@ -45,9 +48,18 @@ export function ResourceCard({ resource, className }) {
         className="block rounded-[4px] border border-ink/10 bg-card overflow-hidden transition-colors duration-150 hover:border-ink/20"
       >
         <div className={cn('relative h-48 bg-gradient-to-br flex items-center justify-center', categoryColors[resource.category] || 'from-ink/10 to-ink/5')}>
-          <span className="text-5xl" role="img" aria-label={resource.category}>
-            {categoryEmoji[resource.category] || '📦'}
-          </span>
+          {imageUrl ? (
+            <img
+              src={imageUrl}
+              alt={resource.name}
+              className="absolute inset-0 w-full h-full object-cover"
+              loading="lazy"
+            />
+          ) : (
+            <span className="text-5xl" role="img" aria-label={resource.category}>
+              {categoryEmoji[resource.category] || '📦'}
+            </span>
+          )}
           <div className="absolute top-3 left-3">
             <Badge variant={resource.available ? 'moss' : 'default'}>
               {resource.available ? 'Available' : 'Unavailable'}

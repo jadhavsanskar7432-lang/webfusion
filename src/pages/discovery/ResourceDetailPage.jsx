@@ -12,6 +12,7 @@ import { DetailSkeleton } from '@/components/ui/skeleton'
 import { EmptyState } from '@/components/shared/EmptyState'
 import { useResourceStore } from '@/store/resourceStore'
 import { useExchangeStore } from '@/store/exchangeStore'
+import { useUnsplashImage } from '@/hooks/useUnsplashImage'
 import { cn } from '@/lib/cn'
 
 const categoryEmoji = {
@@ -42,6 +43,7 @@ export default function ResourceDetailPage() {
   const activeExchange = useMemo(() => resource ? getActiveExchange(resource.id) : null, [resource, getActiveExchange])
   const isRevealed = activeExchange && activeExchange.status !== 'requested'
   const isOwnResource = resource && resource.owner.id === currentUser.id
+  const { imageUrl, regularUrl, photographer, photographerUrl } = useUnsplashImage(resource?.category, resource?.id)
 
   if (!resource) {
     return (
@@ -86,12 +88,20 @@ export default function ResourceDetailPage() {
             transition={{ duration: 0.15 }}
           >
             <div className={cn(
-              'relative h-64 sm:h-80 rounded-[4px] bg-gradient-to-br flex items-center justify-center',
+              'relative h-64 sm:h-80 rounded-[4px] bg-gradient-to-br flex items-center justify-center overflow-hidden',
               categoryColors[resource.category] || 'from-ink/10 to-ink/5'
             )}>
-              <span className="text-7xl" role="img" aria-label={resource.category}>
-                {categoryEmoji[resource.category] || '📦'}
-              </span>
+              {(regularUrl || imageUrl) ? (
+                <img
+                  src={regularUrl || imageUrl}
+                  alt={resource.name}
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+              ) : (
+                <span className="text-7xl" role="img" aria-label={resource.category}>
+                  {categoryEmoji[resource.category] || '📦'}
+                </span>
+              )}
               <div className="absolute top-4 left-4 flex gap-2">
                 <Badge variant={resource.available ? 'moss' : 'default'}>
                   {resource.available ? 'Available' : 'Unavailable'}
@@ -101,6 +111,28 @@ export default function ResourceDetailPage() {
                 </Badge>
               </div>
             </div>
+            {photographer && (
+              <p className="text-[11px] text-ink/35 mt-1.5">
+                Photo by{' '}
+                <a
+                  href={`${photographerUrl}?utm_source=campus_circular&utm_medium=referral`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline hover:text-ink/50 transition-colors duration-150"
+                >
+                  {photographer}
+                </a>
+                {' '}on{' '}
+                <a
+                  href="https://unsplash.com?utm_source=campus_circular&utm_medium=referral"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline hover:text-ink/50 transition-colors duration-150"
+                >
+                  Unsplash
+                </a>
+              </p>
+            )}
           </motion.div>
 
           <motion.div
