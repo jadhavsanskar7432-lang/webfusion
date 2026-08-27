@@ -1,7 +1,7 @@
 import { useParams, Link } from 'react-router-dom'
 import { useMemo } from 'react'
 import { motion } from 'framer-motion'
-import { ArrowLeft, Star, MapPin, Clock, Shield, ShieldCheck, Package, ChevronRight } from 'lucide-react'
+import { ArrowLeft, Star, MapPin, Clock, Shield, ShieldCheck, Package, ChevronRight, Heart } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { TrustBadge } from '@/components/shared/TrustBadge'
@@ -12,6 +12,7 @@ import { DetailSkeleton } from '@/components/ui/skeleton'
 import { EmptyState } from '@/components/shared/EmptyState'
 import { useResourceStore } from '@/store/resourceStore'
 import { useExchangeStore } from '@/store/exchangeStore'
+import { useWishlistStore } from '@/store/wishlistStore'
 import { useUnsplashImage } from '@/hooks/useUnsplashImage'
 import { cn } from '@/lib/cn'
 
@@ -44,6 +45,13 @@ export default function ResourceDetailPage() {
   const isRevealed = activeExchange && activeExchange.status !== 'requested'
   const isOwnResource = resource && resource.owner.id === currentUser.id
   const { imageUrl, regularUrl, photographer, photographerUrl } = useUnsplashImage(resource?.category, resource?.id)
+  const { isWishlisted, toggleWishlist } = useWishlistStore()
+  const liked = resource ? isWishlisted(resource.id) : false
+
+  const handleLike = (e) => {
+    e.preventDefault()
+    if (resource) toggleWishlist(resource.id)
+  }
 
   if (!resource) {
     return (
@@ -109,6 +117,15 @@ export default function ResourceDetailPage() {
                 <Badge variant="outline" className="bg-card/80 backdrop-blur-sm capitalize">
                   {resource.category}
                 </Badge>
+              </div>
+              <div className="absolute top-4 right-4">
+                <button
+                  onClick={handleLike}
+                  className="w-10 h-10 rounded-full bg-card/80 backdrop-blur-sm flex items-center justify-center hover:bg-card transition-colors duration-150 cursor-pointer shadow-sm"
+                  aria-label={liked ? "Remove from wishlist" : "Add to wishlist"}
+                >
+                  <Heart size={20} className={cn("transition-colors duration-150", liked ? "fill-moss text-moss" : "text-ink/60")} />
+                </button>
               </div>
             </div>
             {photographer && (

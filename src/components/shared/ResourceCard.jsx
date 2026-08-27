@@ -1,8 +1,9 @@
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { MapPin, Star, Clock } from 'lucide-react'
+import { MapPin, Star, Clock, Heart } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
 import { useUnsplashImage } from '@/hooks/useUnsplashImage'
+import { useWishlistStore } from '@/store/wishlistStore'
 import { cn } from '@/lib/cn'
 
 const categoryColors = {
@@ -33,6 +34,13 @@ const categoryEmoji = {
 
 export function ResourceCard({ resource, className }) {
   const { imageUrl } = useUnsplashImage(resource.category, resource.id)
+  const { isWishlisted, toggleWishlist } = useWishlistStore()
+  const liked = isWishlisted(resource.id)
+
+  const handleLike = (e) => {
+    e.preventDefault()
+    toggleWishlist(resource.id)
+  }
 
   return (
     <motion.div
@@ -65,10 +73,17 @@ export function ResourceCard({ resource, className }) {
               {resource.available ? 'Available' : 'Unavailable'}
             </Badge>
           </div>
-          <div className="absolute top-3 right-3">
+          <div className="absolute top-3 right-3 flex items-center gap-2">
             <Badge variant="outline" className="bg-card/80 backdrop-blur-sm">
               {resource.category}
             </Badge>
+            <button
+              onClick={handleLike}
+              className="w-8 h-8 rounded-full bg-card/80 backdrop-blur-sm flex items-center justify-center hover:bg-card transition-colors duration-150 cursor-pointer shadow-sm"
+              aria-label={liked ? "Remove from wishlist" : "Add to wishlist"}
+            >
+              <Heart size={16} className={cn("transition-colors duration-150", liked ? "fill-moss text-moss" : "text-ink/60")} />
+            </button>
           </div>
         </div>
 

@@ -7,6 +7,7 @@ const DiscoverPage = lazy(() => import('@/pages/discovery/DiscoverPage'))
 const ResourceDetailPage = lazy(() => import('@/pages/discovery/ResourceDetailPage'))
 const ComparePage = lazy(() => import('@/pages/discovery/ComparePage'))
 const TrustPassportPage = lazy(() => import('@/pages/trust/TrustPassportPage'))
+const WishlistPage = lazy(() => import('@/pages/discovery/WishlistPage'))
 const ComingSoonPage = lazy(() => import('@/pages/ComingSoonPage'))
 
 function PageLoader() {
@@ -31,6 +32,7 @@ export function AppRouter() {
         <Route path="/discover" element={<DiscoverPage />} />
         <Route path="/resource/:id" element={<ResourceDetailPage />} />
         <Route path="/compare" element={<ComparePage />} />
+        <Route path="/wishlist" element={<WishlistPage />} />
         <Route path="/trust/:userId" element={<TrustPassportPage />} />
         <Route path="/agreement" element={<ComingSoonPage title="Borrow Agreement" description="Review and confirm borrowing terms before proceeding with the exchange." />} />
         <Route path="/handover" element={<ComingSoonPage title="Exchange Tracker" description="Track the handover process and confirm exchange with both parties." />} />
