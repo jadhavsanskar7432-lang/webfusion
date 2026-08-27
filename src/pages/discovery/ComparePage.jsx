@@ -24,12 +24,12 @@ export default function ComparePage() {
   }
 
   return (
-    <div className="container py-8">
-      <div className="mb-6">
-        <h1 className="font-display text-2xl sm:text-3xl font-medium text-text-primary mb-1">
+    <div style={{ maxWidth: '1000px', padding: '16px' }}>
+      <div style={{ marginBottom: '32px' }}>
+        <h1 style={{ fontFamily: 'Fraunces, serif', fontSize: '32px', color: 'white', margin: '0 0 8px 0' }}>
           Smart Match
         </h1>
-        <p className="text-sm text-text-secondary">
+        <p style={{ fontFamily: '"IBM Plex Sans", sans-serif', fontSize: '15px', color: 'rgba(255,255,255,0.7)', margin: 0 }}>
           Compare resources side-by-side with our multi-factor scoring algorithm.
         </p>
       </div>

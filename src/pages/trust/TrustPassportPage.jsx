@@ -8,14 +8,14 @@ import { EmptyState } from '@/components/shared/EmptyState'
 import { users } from '@/data/users'
 import { cn } from '@/lib/cn'
 
-function StatCard({ icon: Icon, label, value, suffix = '%', color = 'text-text-primary' }) {
+function StatCard({ icon: Icon, label, value, suffix = '%', color = 'white' }) {
   return (
-    <div className="rounded-[4px] border border-border-subtle bg-surface p-4 text-center">
-      <Icon size={20} className={cn('mx-auto mb-2', color)} />
-      <p className={cn('font-mono text-2xl font-semibold mb-0.5', color)}>
+    <div className="glass-card" style={{ padding: '16px', textAlign: 'center', borderRadius: '12px' }}>
+      <Icon size={20} color={color} style={{ margin: '0 auto 8px' }} />
+      <p style={{ fontFamily: '"IBM Plex Mono", monospace', fontSize: '24px', fontWeight: 600, margin: '0 0 4px', color }}>
         {value}{suffix}
       </p>
-      <p className="text-xs text-text-secondary">{label}</p>
+      <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.7)', margin: 0 }}>{label}</p>
     </div>
   )
 }
@@ -38,16 +38,16 @@ export default function TrustPassportPage() {
   }
 
   const scoreColor = user.trustScore >= 90
-    ? 'text-success'
+    ? '#4ade80'
     : user.trustScore >= 80
-      ? 'text-trust'
-      : 'text-text-primary'
+      ? '#fbbf24'
+      : 'white'
 
   return (
-    <div className="container py-6 sm:py-8 max-w-2xl">
+    <div style={{ maxWidth: '672px', padding: '32px 16px' }}>
       <Link
         to="/discover"
-        className="inline-flex items-center gap-1.5 text-sm text-text-secondary hover:text-text-primary mb-6 transition-colors duration-150"
+        style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '14px', color: 'rgba(255,255,255,0.7)', textDecoration: 'none', marginBottom: '24px' }}
       >
         <ArrowLeft size={16} />
         Back
@@ -57,40 +57,41 @@ export default function TrustPassportPage() {
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.15 }}
-        className="rounded-[4px] border border-border-subtle bg-surface p-6 sm:p-8 mb-6"
+        className="glass-card"
+        style={{ padding: '32px', marginBottom: '24px', borderRadius: '16px' }}
       >
-        <div className="flex items-start gap-4">
-          <div className="w-16 h-16 rounded-full bg-success/20 flex items-center justify-center text-2xl font-display font-semibold text-success shrink-0">
+        <div style={{ display: 'flex', alignItems: 'flex-start', gap: '16px' }}>
+          <div style={{ width: '64px', height: '64px', borderRadius: '50%', background: 'rgba(74, 222, 128, 0.2)', color: '#4ade80', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '24px', fontWeight: 600, fontFamily: 'Fraunces, serif' }}>
             {user.name.charAt(0)}
           </div>
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center gap-2 mb-1">
-              <h1 className="font-display text-xl sm:text-2xl font-medium text-text-primary">
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '4px' }}>
+              <h1 style={{ fontFamily: 'Fraunces, serif', fontSize: '24px', color: 'white', margin: 0 }}>
                 {user.name}
               </h1>
               {user.verified ? (
-                <ShieldCheck size={20} className="text-success shrink-0" />
+                <ShieldCheck size={20} color="#4ade80" />
               ) : (
-                <Shield size={20} className="text-text-secondary/60 shrink-0" />
+                <Shield size={20} color="rgba(255,255,255,0.4)" />
               )}
             </div>
-            <p className="text-sm text-text-secondary mb-3">
+            <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.7)', margin: '0 0 12px' }}>
               {user.department} · Year {user.year}
             </p>
-            <div className="flex items-center gap-2">
-              <Badge variant={user.verified ? 'success' : 'default'}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+              <Badge variant={user.verified ? 'success' : 'default'} style={{ background: user.verified ? 'rgba(74,222,128,0.2)' : 'rgba(255,255,255,0.1)', color: user.verified ? '#4ade80' : 'white', border: 'none' }}>
                 {user.verified ? 'Verified Student' : 'Unverified'}
               </Badge>
             </div>
           </div>
         </div>
 
-        <div className="mt-6 pt-6 border-t border-border-subtle/50 text-center">
-          <p className="text-xs text-text-secondary uppercase tracking-wider mb-2">Trust Score</p>
-          <p className={cn('font-display text-5xl font-semibold', scoreColor)}>
+        <div style={{ marginTop: '24px', paddingTop: '24px', borderTop: '1px solid rgba(255,255,255,0.1)', textAlign: 'center' }}>
+          <p style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)', textTransform: 'uppercase', letterSpacing: '0.05em', margin: '0 0 8px' }}>Trust Score</p>
+          <p style={{ fontFamily: 'Fraunces, serif', fontSize: '48px', fontWeight: 600, margin: 0, color: scoreColor }}>
             {user.trustScore}
           </p>
-          <p className="text-sm text-text-secondary mt-1">
+          <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.7)', marginTop: '4px' }}>
             {user.trustScore >= 90
               ? 'Highly trusted member of the community'
               : user.trustScore >= 80
@@ -106,55 +107,56 @@ export default function TrustPassportPage() {
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.15, delay: 0.05 }}
-        className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6"
+        style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: '12px', marginBottom: '24px' }}
       >
-        <StatCard icon={Clock} label="On-Time Returns" value={user.onTimeReturnRate} color="text-success" />
-        <StatCard icon={Repeat} label="Exchanges" value={user.successfulExchanges} suffix="" color="text-text-primary" />
-        <StatCard icon={Eye} label="Condition Accuracy" value={user.conditionAccuracy} color="text-trust" />
-        <StatCard icon={AlertTriangle} label="Response Rate" value={user.responseRate} color="text-success" />
+        <StatCard icon={Clock} label="On-Time Returns" value={user.onTimeReturnRate} color="#4ade80" />
+        <StatCard icon={Repeat} label="Exchanges" value={user.successfulExchanges} suffix="" color="white" />
+        <StatCard icon={Eye} label="Condition Accuracy" value={user.conditionAccuracy} color="#fbbf24" />
+        <StatCard icon={AlertTriangle} label="Response Rate" value={user.responseRate} color="#4ade80" />
       </motion.div>
 
       <motion.div
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.15, delay: 0.1 }}
-        className="rounded-[4px] border border-border-subtle bg-surface p-6 mb-6"
+        className="glass-card"
+        style={{ padding: '24px', marginBottom: '24px', borderRadius: '16px' }}
       >
-        <h3 className="text-sm font-medium text-text-primary mb-4">Behaviour Details</h3>
-        <div className="space-y-3">
+        <h3 style={{ fontSize: '14px', fontWeight: 600, color: 'white', margin: '0 0 16px' }}>Behaviour Details</h3>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
           {[
             { label: 'On-Time Return Rate', value: user.onTimeReturnRate, explanation: `Returned items on time ${user.onTimeReturnRate}% of the time` },
             { label: 'Condition Accuracy', value: user.conditionAccuracy, explanation: `Item condition matched listing description ${user.conditionAccuracy}% of exchanges` },
             { label: 'Response Rate', value: user.responseRate, explanation: `Responds to borrow requests ${user.responseRate}% of the time` },
           ].map((stat) => (
             <div key={stat.label}>
-              <div className="flex items-center justify-between mb-1">
-                <span className="text-sm text-text-secondary">{stat.label}</span>
-                <span className="font-mono text-sm font-medium text-text-primary">{stat.value}%</span>
+              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '4px' }}>
+                <span style={{ fontSize: '14px', color: 'rgba(255,255,255,0.7)' }}>{stat.label}</span>
+                <span style={{ fontFamily: '"IBM Plex Mono", monospace', fontSize: '14px', fontWeight: 500, color: 'white' }}>{stat.value}%</span>
               </div>
-              <div className="w-full h-1.5 rounded-full bg-text-primary/5 overflow-hidden mb-1">
+              <div style={{ width: '100%', height: '6px', borderRadius: '999px', background: 'rgba(255,255,255,0.1)', overflow: 'hidden', marginBottom: '4px' }}>
                 <div
-                  className={cn(
-                    'h-full rounded-full transition-all duration-500',
-                    stat.value >= 90 ? 'bg-success' : stat.value >= 75 ? 'bg-trust' : 'bg-danger'
-                  )}
-                  style={{ width: `${stat.value}%` }}
+                  style={{
+                    height: '100%', borderRadius: '999px', transition: 'width 0.5s',
+                    background: stat.value >= 90 ? '#4ade80' : stat.value >= 75 ? '#fbbf24' : '#f87171',
+                    width: `${stat.value}%`
+                  }}
                 />
               </div>
-              <p className="text-[11px] text-text-secondary/80">{stat.explanation}</p>
+              <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.5)', margin: 0 }}>{stat.explanation}</p>
             </div>
           ))}
-          <div className="pt-2 border-t border-border-subtle/50">
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-text-secondary">Unresolved Disputes</span>
-              <span className={cn(
-                'font-mono text-sm font-medium',
-                user.unresolvedDisputes > 0 ? 'text-danger' : 'text-success'
-              )}>
+          <div style={{ paddingTop: '16px', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <span style={{ fontSize: '14px', color: 'rgba(255,255,255,0.7)' }}>Unresolved Disputes</span>
+              <span style={{
+                fontFamily: '"IBM Plex Mono", monospace', fontSize: '14px', fontWeight: 500,
+                color: user.unresolvedDisputes > 0 ? '#f87171' : '#4ade80'
+              }}>
                 {user.unresolvedDisputes}
               </span>
             </div>
-            <p className="text-[11px] text-text-secondary/80 mt-0.5">
+            <p style={{ fontSize: '11px', color: 'rgba(255,255,255,0.5)', margin: '4px 0 0' }}>
               {user.unresolvedDisputes === 0 ? 'No unresolved disputes — clean record' : `${user.unresolvedDisputes} dispute(s) pending resolution`}
             </p>
           </div>
@@ -166,17 +168,19 @@ export default function TrustPassportPage() {
           initial={{ opacity: 0, y: 8 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.15, delay: 0.15 }}
-          className="rounded-[4px] border border-border-subtle bg-surface p-6"
+          className="glass-card"
+          style={{ padding: '24px', borderRadius: '16px' }}
         >
-          <h3 className="text-sm font-medium text-text-primary mb-4">Earned Badges</h3>
-          <div className="flex flex-wrap gap-2">
+          <h3 style={{ fontSize: '14px', fontWeight: 600, color: 'white', margin: '0 0 16px' }}>Earned Badges</h3>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
             {user.badges.map((badge) => (
               <div
                 key={badge}
-                className="flex items-center gap-1.5 px-3 py-2 rounded-[4px] border border-trust/20 bg-trust/5"
+                className="glass"
+                style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '8px 12px', borderRadius: '8px' }}
               >
-                <Award size={14} className="text-trust" />
-                <span className="text-sm font-medium text-trust">{badge}</span>
+                <Award size={14} color="#fbbf24" />
+                <span style={{ fontSize: '14px', fontWeight: 500, color: '#fbbf24' }}>{badge}</span>
               </div>
             ))}
           </div>

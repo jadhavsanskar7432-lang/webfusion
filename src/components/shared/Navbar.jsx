@@ -22,6 +22,8 @@ export function Navbar() {
     document.documentElement.classList.toggle('dark', theme === 'dark')
   }, [theme])
 
+  if (location.pathname !== '/') return null;
+
   return (
     <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-sm border-b border-border-subtle">
       <div className="container flex items-center justify-between h-14">

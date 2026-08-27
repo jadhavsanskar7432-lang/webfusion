@@ -1,84 +1,98 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Search, ArrowRight } from 'lucide-react'
-import { cn } from '@/lib/cn'
+import { ArrowRight } from 'lucide-react'
 
 const examplePrompts = [
-  { emoji: '🎬', text: 'I need to shoot a reel tomorrow' },
-  { emoji: '📊', text: 'Preparing for a seminar presentation' },
-  { emoji: '🏏', text: 'Cricket match this weekend, need gear' },
-  { emoji: '🔧', text: 'Working on an Arduino project for lab' },
+  { emoji: '', text: 'I need to shoot a reel tomorrow' },
+  { emoji: '', text: 'Preparing for a seminar presentation' },
+  { emoji: '', text: 'Cricket match this weekend, need gear' },
+  { emoji: '', text: 'Working on an Arduino project for lab' },
 ]
 
-export function SearchHero({ onSearch }) {
+export function SearchHero({ onSearch, theme }) {
   const [query, setQuery] = useState('')
+  const isWarm = theme === 'warm'
 
   function handleSubmit(e) {
     e.preventDefault()
     if (query.trim()) onSearch(query.trim())
   }
 
-  function handlePromptClick(prompt) {
-    setQuery(prompt)
-    onSearch(prompt)
+  function handlePromptClick(text) {
+    setQuery(text)
+    onSearch(text)
+  }
+
+  const inputWrapStyle = isWarm ? {
+    display: 'flex', alignItems: 'center',
+    background: 'rgba(255,255,255,0.92)',
+    border: '1px solid #D4C4A8',
+    borderRadius: '999px',
+    padding: '6px 6px 6px 18px',
+    boxShadow: '0 4px 24px rgba(0,0,0,0.07)',
+  } : {
+    display: 'flex', alignItems: 'center',
+    background: 'rgba(255,255,255,0.08)',
+    border: '1px solid rgba(255,255,255,0.15)',
+    borderRadius: '999px',
+    padding: '6px 6px 6px 18px',
   }
 
   return (
-    <div className="relative z-10 w-full max-w-3xl mx-auto text-center">
-      <motion.div
-        initial={{ opacity: 0, y: 12 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3 }}
-      >
-        <h1 className="font-display text-5xl md:text-7xl text-text-primary tracking-tight leading-[1.05] md:leading-[1.05]">
-          Borrow what you need,
-          <br />
-          <span className="text-accent font-medium">from your campus.</span>
-        </h1>
-        <p className="text-text-secondary font-body text-lg max-w-xl mx-auto mt-4">
-          Tell us what you're trying to do. We'll find the right kit from students around you.
-        </p>
-      </motion.div>
-
+    <div style={{ width: '100%' }}>
       <motion.form
         onSubmit={handleSubmit}
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.3, delay: 0.1 }}
-        className="flex items-center bg-surface/90 backdrop-blur-sm border border-border-subtle rounded-full max-w-2xl mx-auto mt-10 p-2 pl-6 shadow-lg shadow-black/25 focus-within:ring-2 focus-within:ring-accent/40 transition-shadow duration-150"
+        transition={{ duration: 0.3, delay: 0.15 }}
+        style={inputWrapStyle}
       >
-        <Search size={20} className="text-text-secondary/60 shrink-0" />
         <input
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           placeholder="What are you trying to do?"
-          className="flex-1 bg-transparent border-none outline-none font-body text-base text-text-primary placeholder:text-text-secondary px-4 min-w-0"
+          style={{
+            flex: 1, background: 'transparent', border: 'none', outline: 'none',
+            fontSize: '15px', color: isWarm ? '#2A2018' : 'white',
+            fontFamily: 'inherit',
+          }}
         />
         <button
           type="submit"
-          className="shrink-0 bg-accent text-accent-foreground rounded-full px-6 py-3 text-sm font-medium hover:bg-accent/90 transition-colors duration-150 flex items-center gap-1.5 cursor-pointer"
+          style={{
+            flexShrink: 0, background: '#4B9EE5', color: 'white',
+            border: 'none', borderRadius: '999px', padding: '10px 22px',
+            fontSize: '14px', fontWeight: 600, cursor: 'pointer',
+            display: 'flex', alignItems: 'center', gap: '6px',
+          }}
         >
-          Find Kit
-          <ArrowRight size={14} />
+          Find Kit <ArrowRight size={14} />
         </button>
       </motion.form>
 
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ duration: 0.3, delay: 0.2 }}
-        className="mt-6 flex overflow-x-auto sm:flex-wrap items-center sm:justify-center gap-2 max-w-2xl mx-auto pb-2 sm:pb-0 scrollbar-hide"
+        transition={{ duration: 0.3, delay: 0.25 }}
+        style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: '8px', marginTop: '14px' }}
       >
-        <span className="text-text-secondary text-sm mr-3 shrink-0 hidden sm:inline-block">Try:</span>
-        {examplePrompts.map((prompt) => (
+        <span style={{ fontSize: '13px', color: '#A09080', marginRight: '4px' }}>Try:</span>
+        {examplePrompts.map((p) => (
           <button
-            key={prompt.text}
-            onClick={() => handlePromptClick(prompt.text)}
-            className="shrink-0 inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-border-subtle bg-surface text-sm font-body text-text-secondary hover:border-accent/60 hover:text-text-primary transition-colors duration-150 cursor-pointer"
+            key={p.text}
+            onClick={() => handlePromptClick(p.text)}
+            style={{
+              display: 'inline-flex', alignItems: 'center', gap: '6px',
+              padding: '6px 14px', borderRadius: '999px',
+              background: 'rgba(255,255,255,0.65)',
+              border: '1px solid #D4C4A8',
+              fontSize: '12px', color: '#6A5A4A', cursor: 'pointer',
+              fontFamily: 'inherit',
+            }}
           >
-            <span>{prompt.emoji}</span>
-            <span>{prompt.text}</span>
+            <span>{p.emoji}</span>
+            <span>{p.text}</span>
           </button>
         ))}
       </motion.div>

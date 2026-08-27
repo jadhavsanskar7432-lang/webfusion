@@ -38,31 +38,37 @@ export function ResourceGrid() {
   }, [resources, category, sort])
 
   return (
-    <div className="space-y-4">
-      <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-        <div className="flex flex-wrap gap-1.5">
+    <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', alignItems: 'center' }}>
+        <div className="glass" style={{ display: 'flex', flexWrap: 'wrap', gap: '4px', padding: '6px', borderRadius: '12px' }}>
           {CATEGORIES.map((cat) => (
             <button
               key={cat}
               onClick={() => setCategory(cat)}
-              className={cn(
-                'px-3 py-1.5 rounded-[4px] text-xs font-medium capitalize transition-colors duration-150 cursor-pointer',
-                category === cat
-                  ? 'bg-accent text-accent-foreground'
-                  : 'bg-surface border border-border-subtle text-text-secondary hover:text-text-primary hover:border-accent/30'
-              )}
+              className={category === cat ? 'glass-strong' : ''}
+              style={{
+                padding: '6px 14px', borderRadius: '8px', fontSize: '13px',
+                fontWeight: category === cat ? 600 : 400, textTransform: 'capitalize',
+                color: category === cat ? 'white' : 'rgba(255,255,255,0.7)',
+                cursor: 'pointer', border: 'none', background: 'transparent'
+              }}
             >
               {cat}
             </button>
           ))}
         </div>
+        
         <select
           value={sort}
           onChange={(e) => setSort(e.target.value)}
-          className="ml-auto text-xs border border-border-subtle rounded-[4px] px-2 py-1.5 bg-surface text-text-primary focus-visible:outline-2 focus-visible:outline-accent cursor-pointer"
+          className="glass"
+          style={{
+            marginLeft: 'auto', padding: '8px 12px', borderRadius: '8px',
+            fontSize: '13px', color: 'white', cursor: 'pointer', outline: 'none'
+          }}
         >
           {SORT_OPTIONS.map((opt) => (
-            <option key={opt.value} value={opt.value}>{opt.label}</option>
+            <option key={opt.value} value={opt.value} style={{ color: 'black' }}>{opt.label}</option>
           ))}
         </select>
       </div>
@@ -73,7 +79,7 @@ export function ResourceGrid() {
           description="Try selecting a different category."
         />
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: '20px' }}>
           {filtered.map((resource) => (
             <ResourceCard key={resource.id} resource={resource} />
           ))}

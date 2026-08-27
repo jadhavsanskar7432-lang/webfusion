@@ -1,6 +1,7 @@
-import { Routes, Route } from 'react-router-dom'
+import { Routes, Route, Outlet } from 'react-router-dom'
 import { lazy, Suspense } from 'react'
 import { Skeleton } from '@/components/ui/skeleton'
+import { InnerLayout } from '@/components/shared/InnerLayout'
 
 const HomePage = lazy(() => import('@/pages/discovery/HomePage'))
 const DiscoverPage = lazy(() => import('@/pages/discovery/DiscoverPage'))
@@ -28,16 +29,18 @@ export function AppRouter() {
     <Suspense fallback={<PageLoader />}>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/discover" element={<DiscoverPage />} />
-        <Route path="/resource/:id" element={<ResourceDetailPage />} />
-        <Route path="/compare" element={<ComparePage />} />
-        <Route path="/trust/:userId" element={<TrustPassportPage />} />
-        <Route path="/agreement" element={<ComingSoonPage title="Borrow Agreement" description="Review and confirm borrowing terms before proceeding with the exchange." />} />
-        <Route path="/handover" element={<ComingSoonPage title="Exchange Tracker" description="Track the handover process and confirm exchange with both parties." />} />
-        <Route path="/settlement" element={<ComingSoonPage title="Settlement" description="View deposit refund calculations and finalize the exchange." />} />
-        <Route path="/requests" element={<ComingSoonPage title="Community Requests" description="Post what you need when no listing matches, and let other students respond." />} />
-        <Route path="/admin" element={<ComingSoonPage title="Admin Command Center" description="Monitor exchanges, resolve disputes, and manage platform activity." />} />
-        <Route path="*" element={<ComingSoonPage title="Page Not Found" description="The page you're looking for doesn't exist." />} />
+        <Route element={<InnerLayout><Outlet /></InnerLayout>}>
+          <Route path="/discover" element={<DiscoverPage />} />
+          <Route path="/resource/:id" element={<ResourceDetailPage />} />
+          <Route path="/compare" element={<ComparePage />} />
+          <Route path="/trust/:userId" element={<TrustPassportPage />} />
+          <Route path="/agreement" element={<ComingSoonPage title="Borrow Agreement" description="Review and confirm borrowing terms before proceeding with the exchange." />} />
+          <Route path="/handover" element={<ComingSoonPage title="Exchange Tracker" description="Track the handover process and confirm exchange with both parties." />} />
+          <Route path="/settlement" element={<ComingSoonPage title="Settlement" description="View deposit refund calculations and finalize the exchange." />} />
+          <Route path="/requests" element={<ComingSoonPage title="Community Requests" description="Post what you need when no listing matches, and let other students respond." />} />
+          <Route path="/admin" element={<ComingSoonPage title="Admin Command Center" description="Monitor exchanges, resolve disputes, and manage platform activity." />} />
+          <Route path="*" element={<ComingSoonPage title="Page Not Found" description="The page you're looking for doesn't exist." />} />
+        </Route>
       </Routes>
     </Suspense>
   )

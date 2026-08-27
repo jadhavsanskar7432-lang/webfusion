@@ -52,19 +52,20 @@ export function CompareView({ resources }) {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="font-display text-xl font-medium text-text-primary">Smart Match</h2>
-        <div className="flex gap-1 bg-surface border border-border-subtle rounded-[4px] p-0.5">
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '24px' }}>
+        <h2 style={{ fontFamily: 'Fraunces, serif', fontSize: '20px', color: 'white', margin: 0 }}>Smart Match</h2>
+        <div className="glass" style={{ display: 'flex', gap: '4px', padding: '4px', borderRadius: '8px' }}>
           {SORT_TABS.map((tab) => (
             <button
               key={tab.key}
               onClick={() => setSortBy(tab.key)}
-              className={cn(
-                'px-3 py-1 text-xs font-medium rounded-[4px] transition-colors duration-150 cursor-pointer',
-                sortBy === tab.key
-                  ? 'bg-accent text-accent-foreground'
-                  : 'text-text-secondary hover:text-text-primary'
-              )}
+              className={sortBy === tab.key ? 'glass-strong' : ''}
+              style={{
+                padding: '4px 12px', fontSize: '12px', fontWeight: sortBy === tab.key ? 600 : 400,
+                borderRadius: '6px', cursor: 'pointer', border: 'none', background: 'transparent',
+                color: sortBy === tab.key ? 'white' : 'rgba(255,255,255,0.7)',
+                transition: 'all 0.15s'
+              }}
             >
               {tab.label}
             </button>
@@ -79,64 +80,79 @@ export function CompareView({ resources }) {
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.2, delay: index * 0.1 }}
-            className={cn(
-              'rounded-[4px] border bg-surface p-6 flex flex-col items-center text-center',
-              index === 0 ? 'border-accent/30' : 'border-border-subtle'
-            )}
+            className={`glass-card ${index === 0 ? 'glass-strong' : ''}`}
+            style={{
+              padding: '24px', display: 'flex', flexDirection: 'column',
+              alignItems: 'center', textAlign: 'center',
+              borderRadius: '16px', position: 'relative'
+            }}
           >
             {index === 0 && (
-              <Badge variant="success" className="mb-4">Top Pick</Badge>
+              <div style={{
+                position: 'absolute', top: '-12px', background: '#4ade80',
+                color: '#064e3b', padding: '2px 12px', borderRadius: '999px',
+                fontSize: '11px', fontWeight: 700, letterSpacing: '0.05em',
+                textTransform: 'uppercase'
+              }}>
+                Top Pick
+              </div>
             )}
 
-            <MatchScore
-              score={resource.matchResult.overall}
-              explanation={resource.matchResult.explanation}
-              delay={index * 200}
-            />
+            <div style={{ transform: 'scale(0.8)', marginBottom: '-16px' }}>
+              <MatchScore
+                score={resource.matchResult.overall}
+                explanation={resource.matchResult.explanation}
+                delay={index * 200}
+              />
+            </div>
 
-            <h3 className="font-display text-base font-medium text-text-primary mt-4 mb-1">
+            <h3 style={{ fontFamily: 'Fraunces, serif', fontSize: '18px', color: 'white', margin: '16px 0 4px' }}>
               {resource.name}
             </h3>
-            <div className="flex items-center gap-3 text-xs text-text-secondary mb-1">
-              <span className="flex items-center gap-0.5">
-                <MapPin size={11} />
-                <span className="font-mono">{resource.distance < 1 ? `${Math.round(resource.distance * 1000)}m` : `${resource.distance.toFixed(1)}km`}</span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', fontSize: '12px', color: 'rgba(255,255,255,0.7)', marginBottom: '16px' }}>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <MapPin size={12} />
+                <span style={{ fontFamily: '"IBM Plex Mono", monospace' }}>{resource.distance < 1 ? `${Math.round(resource.distance * 1000)}m` : `${resource.distance.toFixed(1)}km`}</span>
               </span>
-              <span className="flex items-center gap-0.5">
-                <Star size={11} className="text-trust fill-trust" />
-                <span className="font-mono">{resource.rating}</span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '4px' }}>
+                <Star size={12} fill="#fbbf24" color="#fbbf24" />
+                <span style={{ fontFamily: '"IBM Plex Mono", monospace' }}>{resource.rating}</span>
               </span>
             </div>
-            <p className="font-mono text-lg font-semibold text-text-primary mb-2">
-              ₹{resource.pricePerDay}<span className="text-xs text-text-secondary font-body">/day</span>
+            
+            <p style={{ fontFamily: '"IBM Plex Mono", monospace', fontSize: '20px', fontWeight: 600, color: 'white', margin: '0 0 16px' }}>
+              ₹{resource.pricePerDay}<span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.5)', fontFamily: '"IBM Plex Sans", sans-serif' }}>/day</span>
             </p>
 
-            <TrustBadge score={resource.owner.trustScore} verified={resource.owner.verified} size="sm" className="mb-4" />
+            <TrustBadge score={resource.owner.trustScore} verified={resource.owner.verified} size="sm" className="mb-6" />
 
-            <div className="w-full space-y-1.5 mb-4">
+            <div style={{ width: '100%', display: 'flex', flexDirection: 'column', gap: '8px', marginBottom: '24px' }}>
               {resource.matchResult.factors.map((factor) => (
-                <div key={factor.name} className="flex items-center gap-2 text-xs">
-                  <span className="w-20 text-text-secondary text-right">{factor.name}</span>
-                  <div className="flex-1 h-1.5 rounded-full bg-text-primary/10 overflow-hidden">
+                <div key={factor.name} style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '11px' }}>
+                  <span style={{ width: '80px', color: 'rgba(255,255,255,0.6)', textAlign: 'right' }}>{factor.name}</span>
+                  <div style={{ flex: 1, height: '4px', borderRadius: '999px', background: 'rgba(255,255,255,0.1)', overflow: 'hidden' }}>
                     <div
-                      className="h-full rounded-full bg-accent"
-                      style={{ width: `${factor.score}%` }}
+                      style={{ height: '100%', borderRadius: '999px', background: index === 0 ? '#4ade80' : '#4B9EE5', width: `${factor.score}%` }}
                     />
                   </div>
-                  <span className="w-8 font-mono text-text-secondary text-right">{factor.score}</span>
+                  <span style={{ width: '32px', fontFamily: '"IBM Plex Mono", monospace', color: 'rgba(255,255,255,0.8)', textAlign: 'right' }}>{factor.score}</span>
                 </div>
               ))}
             </div>
 
-            <Link to={`/resource/${resource.id}`} className="w-full">
-              <Button
-                variant={index === 0 ? 'primary' : 'outline'}
-                size="sm"
-                className="w-full"
+            <Link to={`/resource/${resource.id}`} style={{ width: '100%', textDecoration: 'none' }}>
+              <button
+                style={{
+                  width: '100%', padding: '10px', borderRadius: '999px',
+                  background: index === 0 ? '#4B9EE5' : 'rgba(255,255,255,0.1)',
+                  color: 'white', border: '1px solid rgba(255,255,255,0.2)',
+                  fontSize: '13px', fontWeight: 600, cursor: 'pointer',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px'
+                }}
               >
                 View Details
                 <ArrowRight size={14} />
-              </Button>
+              </button>
             </Link>
           </motion.div>
         ))}
