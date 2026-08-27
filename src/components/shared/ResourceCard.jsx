@@ -7,16 +7,16 @@ import { useWishlistStore } from '@/store/wishlistStore'
 import { cn } from '@/lib/cn'
 
 const categoryColors = {
-  camera: 'from-moss/20 to-moss/5',
-  laptop: 'from-ink/15 to-ink/5',
-  tripod: 'from-brass/20 to-brass/5',
-  microphone: 'from-stamp/15 to-stamp/5',
-  lighting: 'from-brass/25 to-brass/5',
-  calculator: 'from-moss/15 to-moss/5',
-  textbook: 'from-ink/10 to-ink/5',
-  projector: 'from-moss/25 to-moss/5',
-  sports: 'from-stamp/20 to-stamp/5',
-  tools: 'from-ink/20 to-ink/5',
+  camera: 'from-accent/20 to-accent/5',
+  laptop: 'from-text-primary/15 to-text-primary/5',
+  tripod: 'from-trust/20 to-trust/5',
+  microphone: 'from-danger/15 to-danger/5',
+  lighting: 'from-trust/25 to-trust/5',
+  calculator: 'from-accent/15 to-accent/5',
+  textbook: 'from-text-primary/10 to-text-primary/5',
+  projector: 'from-accent/25 to-accent/5',
+  sports: 'from-danger/20 to-danger/5',
+  tools: 'from-text-primary/20 to-text-primary/5',
 }
 
 const categoryEmoji = {
@@ -28,7 +28,7 @@ const categoryEmoji = {
   calculator: '🧮',
   textbook: '📚',
   projector: '📽️',
-  sports: '🏏',
+  sports: '🏅',
   tools: '🔧',
 }
 
@@ -53,9 +53,12 @@ export function ResourceCard({ resource, className }) {
       <Link
         to={`/resource/${resource.id}`}
         id={`resource-card-${resource.id}`}
-        className="block rounded-[4px] border border-ink/10 bg-card overflow-hidden transition-colors duration-150 hover:border-ink/20"
+        className="block rounded-[4px] border border-border-subtle bg-surface overflow-hidden transition-colors duration-150 hover:border-accent/30"
       >
-        <div className={cn('relative h-48 bg-gradient-to-br flex items-center justify-center', categoryColors[resource.category] || 'from-ink/10 to-ink/5')}>
+        <div className={cn(
+          'relative h-48 bg-gradient-to-br flex items-center justify-center overflow-hidden',
+          categoryColors[resource.category] || 'from-text-primary/10 to-text-primary/5'
+        )}>
           {imageUrl ? (
             <img
               src={imageUrl}
@@ -69,12 +72,12 @@ export function ResourceCard({ resource, className }) {
             </span>
           )}
           <div className="absolute top-3 left-3">
-            <Badge variant={resource.available ? 'moss' : 'default'}>
+            <Badge variant={resource.available ? 'success' : 'default'}>
               {resource.available ? 'Available' : 'Unavailable'}
             </Badge>
           </div>
-          <div className="absolute top-3 right-3 flex items-center gap-2">
-            <Badge variant="outline" className="bg-card/80 backdrop-blur-sm">
+          <div className="absolute top-3 right-3">
+            <Badge variant="outline" className="bg-surface/80 backdrop-blur-sm">
               {resource.category}
             </Badge>
             <button
@@ -89,26 +92,30 @@ export function ResourceCard({ resource, className }) {
 
         <div className="p-4 space-y-3">
           <div>
-            <h3 className="font-body font-medium text-ink text-sm leading-tight group-hover:text-moss transition-colors duration-150">
+            <h3 className="font-body font-medium text-text-primary text-sm leading-tight group-hover:text-accent transition-colors duration-150">
               {resource.name}
             </h3>
-            <p className="text-xs text-ink/60 mt-0.5">{resource.condition} condition</p>
+            <p className="text-xs text-text-secondary mt-0.5">{resource.condition} condition</p>
           </div>
 
           <div className="flex items-center justify-between">
-            <span className="font-mono text-sm font-medium text-ink">
-              ₹{resource.pricePerDay}<span className="text-xs text-ink/40 font-body">/day</span>
+            <span className="font-mono text-sm font-medium text-text-primary">
+              ₹{resource.pricePerDay}<span className="text-xs text-text-secondary font-body">/day</span>
             </span>
-            <div className="flex items-center gap-1 text-xs text-ink/60">
-              <Star size={12} className="text-brass fill-brass" />
+            <div className="flex items-center gap-1 text-xs text-text-secondary">
+              <Star size={12} className="text-trust fill-trust" />
               <span className="font-mono">{resource.rating}</span>
             </div>
           </div>
 
-          <div className="flex items-center justify-between text-xs text-ink/50">
+          <div className="flex items-center justify-between text-xs text-text-secondary">
             <div className="flex items-center gap-1">
               <MapPin size={12} />
-              <span className="font-mono">{resource.distance < 1 ? `${Math.round(resource.distance * 1000)}m` : `${resource.distance.toFixed(1)}km`}</span>
+              <span className="font-mono">
+                {resource.distance < 1
+                  ? `${Math.round(resource.distance * 1000)}m`
+                  : `${resource.distance.toFixed(1)}km`}
+              </span>
             </div>
             <div className="flex items-center gap-1">
               <Clock size={12} />
@@ -116,13 +123,13 @@ export function ResourceCard({ resource, className }) {
             </div>
           </div>
 
-          <div className="flex items-center gap-2 pt-1 border-t border-ink/5">
-            <div className="w-5 h-5 rounded-full bg-moss/20 flex items-center justify-center text-[10px] font-medium text-moss">
+          <div className="flex items-center gap-2 pt-1 border-t border-border-subtle/50">
+            <div className="w-5 h-5 rounded-full bg-accent/20 flex items-center justify-center text-[10px] font-medium text-accent">
               {resource.owner.name.charAt(0)}
             </div>
-            <span className="text-xs text-ink/60 truncate">{resource.owner.name}</span>
+            <span className="text-xs text-text-secondary truncate">{resource.owner.name}</span>
             {resource.owner.verified && (
-              <span className="text-[10px] text-moss">✓</span>
+              <span className="text-[10px] text-success">✓</span>
             )}
           </div>
         </div>

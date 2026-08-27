@@ -29,9 +29,9 @@ export function LifecycleTracker({ currentStatus, className }) {
                 <div
                   className={cn(
                     'w-7 h-7 rounded-full flex items-center justify-center text-xs font-mono border transition-colors duration-150',
-                    isCompleted && 'bg-moss border-moss text-card',
-                    isCurrent && 'bg-moss/10 border-moss text-moss',
-                    isUpcoming && 'bg-transparent border-ink/15 text-ink/30'
+                    isCompleted && 'bg-success border-success text-accent-foreground',
+                    isCurrent && 'bg-accent/10 border-accent text-accent',
+                    isUpcoming && 'bg-transparent border-border-subtle text-text-secondary/60'
                   )}
                 >
                   {isCompleted ? <Check size={14} /> : index + 1}
@@ -39,9 +39,9 @@ export function LifecycleTracker({ currentStatus, className }) {
                 <span
                   className={cn(
                     'text-[10px] whitespace-nowrap',
-                    isCompleted && 'text-moss font-medium',
-                    isCurrent && 'text-moss font-medium',
-                    isUpcoming && 'text-ink/30'
+                    isCompleted && 'text-success font-medium',
+                    isCurrent && 'text-accent font-medium',
+                    isUpcoming && 'text-text-secondary/60'
                   )}
                 >
                   {status.label}
@@ -52,7 +52,7 @@ export function LifecycleTracker({ currentStatus, className }) {
                 <div
                   className={cn(
                     'w-8 h-px mx-1 mt-[-16px]',
-                    index < currentIndex ? 'bg-moss' : 'bg-ink/10'
+                    index < currentIndex ? 'bg-success' : 'bg-border-subtle'
                   )}
                 />
               )}

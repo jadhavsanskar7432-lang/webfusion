@@ -2,16 +2,16 @@ import { cva } from 'class-variance-authority'
 import { cn } from '@/lib/cn'
 
 const buttonVariants = cva(
-  'inline-flex items-center justify-center gap-2 font-body text-sm font-medium transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-moss disabled:pointer-events-none disabled:opacity-50 rounded-[4px] cursor-pointer',
+  'inline-flex items-center justify-center gap-2 font-body text-sm font-medium transition-colors duration-150 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent disabled:pointer-events-none disabled:opacity-50 rounded-[4px] cursor-pointer',
   {
     variants: {
       variant: {
-        default: 'bg-ink text-card hover:bg-ink/90',
-        primary: 'bg-moss text-card hover:bg-moss/90',
-        outline: 'border border-ink/10 bg-transparent text-ink hover:bg-ink/5',
-        ghost: 'bg-transparent text-ink hover:bg-ink/5',
-        stamp: 'bg-stamp text-card hover:bg-stamp/90',
-        brass: 'bg-brass text-card hover:bg-brass/90',
+        default: 'bg-text-primary text-surface hover:bg-text-primary/90',
+        primary: 'bg-accent text-accent-foreground hover:bg-accent/90',
+        outline: 'border border-border-subtle bg-transparent text-text-primary hover:bg-text-primary/5',
+        ghost: 'bg-transparent text-text-primary hover:bg-text-primary/5',
+        danger: 'bg-danger text-accent-foreground hover:bg-danger/90',
+        trust: 'bg-trust text-accent-foreground hover:bg-trust/90',
       },
       size: {
         sm: 'h-8 px-3 text-xs',

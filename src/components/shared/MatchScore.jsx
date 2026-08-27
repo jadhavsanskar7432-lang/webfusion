@@ -12,7 +12,7 @@ export function MatchScore({ score, explanation, size = 120, strokeWidth = 6, cl
   const circumference = 2 * Math.PI * radius
   const strokeDashoffset = circumference - (displayScore / 100) * circumference
 
-  const scoreColor = score >= 80 ? 'var(--color-moss)' : score >= 60 ? 'var(--color-brass)' : 'var(--color-stamp)'
+  const scoreColor = score >= 80 ? 'var(--success)' : score >= 60 ? 'var(--warning)' : 'var(--danger)'
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -71,7 +71,7 @@ export function MatchScore({ score, explanation, size = 120, strokeWidth = 6, cl
             cy={size / 2}
             r={radius}
             fill="none"
-            stroke="var(--color-ink-10)"
+            style={{ stroke: 'var(--border-subtle)' }}
             strokeWidth={strokeWidth}
           />
           <motion.circle
@@ -79,7 +79,7 @@ export function MatchScore({ score, explanation, size = 120, strokeWidth = 6, cl
             cy={size / 2}
             r={radius}
             fill="none"
-            stroke={scoreColor}
+            style={{ stroke: scoreColor }}
             strokeWidth={strokeWidth}
             strokeLinecap="round"
             strokeDasharray={circumference}
@@ -100,7 +100,7 @@ export function MatchScore({ score, explanation, size = 120, strokeWidth = 6, cl
 
       {explanation && (
         <motion.p
-          className="text-xs text-ink/60 text-center max-w-[200px] leading-relaxed"
+          className="text-xs text-text-secondary text-center max-w-[200px] leading-relaxed"
           initial={{ opacity: 0, y: 4 }}
           animate={isVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 4 }}
           transition={shouldReduceMotion ? { duration: 0 } : { duration: 0.4, delay: (delay / 1000) + 0.8 }}

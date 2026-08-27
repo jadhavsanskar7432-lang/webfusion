@@ -1,6 +1,6 @@
 import { motion } from 'framer-motion'
+import { Target, Clock, Zap } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
-import { Clock, Target, Zap } from 'lucide-react'
 import { cn } from '@/lib/cn'
 
 export function IntentDisplay({ intent, className }) {
@@ -10,36 +10,35 @@ export function IntentDisplay({ intent, className }) {
     <motion.div
       initial={{ opacity: 0, y: 8 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.15 }}
-      className={cn('rounded-[4px] border border-ink/10 bg-card p-4', className)}
+      transition={{ duration: 0.2 }}
+      className={cn('rounded-[4px] border border-border-subtle bg-surface p-4', className)}
     >
       <div className="flex items-start gap-3">
-        <div className="w-8 h-8 rounded-[4px] bg-moss/10 flex items-center justify-center shrink-0">
-          <Target size={16} className="text-moss" />
+        <div className="w-8 h-8 rounded-full bg-accent/10 flex items-center justify-center shrink-0 mt-0.5">
+          <Target size={16} className="text-accent" />
         </div>
         <div className="flex-1 min-w-0">
-          <p className="text-sm font-medium text-ink mb-1">
-            We understood: <span className="text-moss">{intent.label}</span>
+          <p className="text-sm text-text-secondary">
+            <span className="font-medium text-accent">We understood:</span>{' '}
+            <span className="font-medium text-text-primary">{intent.label}</span>
           </p>
-          <p className="text-xs text-ink/50 mb-3">{intent.description}</p>
+          <p className="text-xs text-text-secondary mt-0.5">{intent.description}</p>
 
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap items-center gap-2 mt-3">
             {intent.needs.map((need) => (
-              <Badge key={need} variant="moss">
-                {need}
-              </Badge>
+              <Badge key={need} variant="success">{need}</Badge>
             ))}
-            {intent.duration !== 'flexible' && (
-              <Badge variant="outline" className="flex items-center gap-1">
-                <Clock size={10} />
-                {intent.duration}
-              </Badge>
+            {intent.duration && (
+              <div className="flex items-center gap-1 text-xs text-text-secondary">
+                <Clock size={12} />
+                {intent.duration} day{intent.duration > 1 ? 's' : ''}
+              </div>
             )}
-            {intent.urgency !== 'flexible' && (
-              <Badge variant="outline" className="flex items-center gap-1">
-                <Zap size={10} />
+            {intent.urgency && (
+              <div className="flex items-center gap-1 text-xs text-warning">
+                <Zap size={12} />
                 {intent.urgency}
-              </Badge>
+              </div>
             )}
           </div>
         </div>

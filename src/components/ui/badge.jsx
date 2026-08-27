@@ -6,11 +6,12 @@ const badgeVariants = cva(
   {
     variants: {
       variant: {
-        default: 'bg-ink/10 text-ink',
-        moss: 'bg-moss/10 text-moss',
-        stamp: 'bg-stamp/10 text-stamp',
-        brass: 'bg-brass/10 text-brass',
-        outline: 'border border-ink/10 text-ink',
+        default: 'bg-text-primary/10 text-text-primary',
+        success: 'bg-success/10 text-success',
+        danger: 'bg-danger/10 text-danger',
+        trust: 'bg-trust/10 text-trust',
+        warning: 'bg-warning/10 text-warning',
+        outline: 'border border-border-subtle text-text-primary',
       },
     },
     defaultVariants: {
