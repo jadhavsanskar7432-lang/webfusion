@@ -21,13 +21,13 @@ export function TrustBadge({ score, verified, size = 'md', showLabel = true, cla
   return (
     <div className={cn('flex items-center gap-2', className)}>
       <div className="flex items-center gap-1.5">
-        <Icon size={s.icon} className={verified ? 'text-moss' : 'text-ink/40'} />
-        <span className={cn('font-mono font-semibold text-brass', s.score)}>
+        <Icon size={s.icon} className={verified ? 'text-success' : 'text-text-secondary'} />
+        <span className={cn('font-mono font-semibold text-trust', s.score)}>
           {score}
         </span>
       </div>
       {showLabel && (
-        <span className={cn('text-ink/60', s.text)}>
+        <span className={cn('text-text-secondary', s.text)}>
           {getScoreLabel(score)}
         </span>
       )}

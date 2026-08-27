@@ -22,16 +22,16 @@ const categoryEmoji = {
 }
 
 const categoryColors = {
-  camera: 'from-moss/20 to-moss/5',
-  laptop: 'from-ink/15 to-ink/5',
-  tripod: 'from-brass/20 to-brass/5',
-  microphone: 'from-stamp/15 to-stamp/5',
-  lighting: 'from-brass/25 to-brass/5',
-  calculator: 'from-moss/15 to-moss/5',
-  textbook: 'from-ink/10 to-ink/5',
-  projector: 'from-moss/25 to-moss/5',
-  sports: 'from-stamp/20 to-stamp/5',
-  tools: 'from-ink/20 to-ink/5',
+  camera: 'from-success/20 to-success/5',
+  laptop: 'from-text-primary/15 to-text-primary/5',
+  tripod: 'from-trust/20 to-trust/5',
+  microphone: 'from-danger/15 to-danger/5',
+  lighting: 'from-trust/25 to-trust/5',
+  calculator: 'from-success/15 to-success/5',
+  textbook: 'from-text-primary/10 to-text-primary/5',
+  projector: 'from-success/25 to-success/5',
+  sports: 'from-danger/20 to-danger/5',
+  tools: 'from-text-primary/20 to-text-primary/5',
 }
 
 export default function ResourceDetailPage() {
@@ -74,7 +74,7 @@ export default function ResourceDetailPage() {
     <div className="container py-6 sm:py-8">
       <Link
         to="/discover"
-        className="inline-flex items-center gap-1.5 text-sm text-ink/50 hover:text-ink mb-6 transition-colors duration-150"
+        className="inline-flex items-center gap-1.5 text-sm text-text-secondary hover:text-text-primary mb-6 transition-colors duration-150"
       >
         <ArrowLeft size={16} />
         Back to Discover
@@ -88,8 +88,13 @@ export default function ResourceDetailPage() {
             transition={{ duration: 0.15 }}
           >
             <div className={cn(
+<<<<<<< Updated upstream
               'relative h-64 sm:h-80 rounded-[4px] bg-gradient-to-br flex items-center justify-center overflow-hidden',
               categoryColors[resource.category] || 'from-ink/10 to-ink/5'
+=======
+              'relative h-64 sm:h-80 rounded-[4px] bg-gradient-to-br flex items-center justify-center',
+              categoryColors[resource.category] || 'from-text-primary/10 to-text-primary/5'
+>>>>>>> Stashed changes
             )}>
               {(regularUrl || imageUrl) ? (
                 <img
@@ -103,10 +108,10 @@ export default function ResourceDetailPage() {
                 </span>
               )}
               <div className="absolute top-4 left-4 flex gap-2">
-                <Badge variant={resource.available ? 'moss' : 'default'}>
+                <Badge variant={resource.available ? 'success' : 'default'}>
                   {resource.available ? 'Available' : 'Unavailable'}
                 </Badge>
-                <Badge variant="outline" className="bg-card/80 backdrop-blur-sm capitalize">
+                <Badge variant="outline" className="bg-surface/80 backdrop-blur-sm capitalize">
                   {resource.category}
                 </Badge>
               </div>
@@ -142,12 +147,12 @@ export default function ResourceDetailPage() {
             className="space-y-4"
           >
             <div>
-              <h1 className="font-display text-2xl sm:text-3xl font-medium text-ink mb-2">
+              <h1 className="font-display text-2xl sm:text-3xl font-medium text-text-primary mb-2">
                 {resource.name}
               </h1>
-              <div className="flex flex-wrap items-center gap-3 text-sm text-ink/50">
+              <div className="flex flex-wrap items-center gap-3 text-sm text-text-secondary">
                 <span className="flex items-center gap-1">
-                  <Star size={14} className="text-brass fill-brass" />
+                  <Star size={14} className="text-trust fill-trust" />
                   <span className="font-mono">{resource.rating}</span>
                   <span className="text-xs">({resource.history.exchanges} exchanges)</span>
                 </span>
@@ -162,11 +167,11 @@ export default function ResourceDetailPage() {
               </div>
             </div>
 
-            <p className="text-sm text-ink/70 leading-relaxed">{resource.description}</p>
+            <p className="text-sm text-text-secondary leading-relaxed">{resource.description}</p>
 
             {resource.accessories.length > 0 && (
               <div>
-                <h3 className="text-sm font-medium text-ink mb-2">Included Accessories</h3>
+                <h3 className="text-sm font-medium text-text-primary mb-2">Included Accessories</h3>
                 <div className="flex flex-wrap gap-2">
                   {resource.accessories.map((acc) => (
                     <Badge key={acc} variant="outline">{acc}</Badge>
@@ -175,24 +180,24 @@ export default function ResourceDetailPage() {
               </div>
             )}
 
-            <div className="rounded-[4px] border border-ink/10 bg-card p-4">
-              <h3 className="text-sm font-medium text-ink mb-3">Borrowing Terms</h3>
+            <div className="rounded-[4px] border border-border-subtle bg-surface p-4">
+              <h3 className="text-sm font-medium text-text-primary mb-3">Borrowing Terms</h3>
               <div className="grid grid-cols-2 gap-3 text-sm">
                 <div>
-                  <p className="text-ink/40 text-xs">Daily Rate</p>
-                  <p className="font-mono font-medium">₹{resource.pricePerDay}</p>
+                  <p className="text-text-secondary text-xs">Daily Rate</p>
+                  <p className="font-mono font-medium text-text-primary">₹{resource.pricePerDay}</p>
                 </div>
                 <div>
-                  <p className="text-ink/40 text-xs">Security Deposit</p>
-                  <p className="font-mono font-medium">₹{resource.deposit.toLocaleString('en-IN')}</p>
+                  <p className="text-text-secondary text-xs">Security Deposit</p>
+                  <p className="font-mono font-medium text-text-primary">₹{resource.deposit.toLocaleString('en-IN')}</p>
                 </div>
                 <div>
-                  <p className="text-ink/40 text-xs">Condition</p>
-                  <p className="font-medium">{resource.condition}</p>
+                  <p className="text-text-secondary text-xs">Condition</p>
+                  <p className="font-medium text-text-primary">{resource.condition}</p>
                 </div>
                 <div>
-                  <p className="text-ink/40 text-xs">Damage Reports</p>
-                  <p className="font-mono font-medium">{resource.history.damageReports}</p>
+                  <p className="text-text-secondary text-xs">Damage Reports</p>
+                  <p className="font-mono font-medium text-text-primary">{resource.history.damageReports}</p>
                 </div>
               </div>
             </div>
@@ -204,21 +209,21 @@ export default function ResourceDetailPage() {
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.15, delay: 0.1 }}
-            className="rounded-[4px] border border-ink/10 bg-card p-4"
+            className="rounded-[4px] border border-border-subtle bg-surface p-4"
           >
-            <h3 className="text-sm font-medium text-ink mb-3">Owner</h3>
+            <h3 className="text-sm font-medium text-text-primary mb-3">Owner</h3>
             <div className="flex items-center gap-3 mb-3">
-              <div className="w-10 h-10 rounded-full bg-moss/20 flex items-center justify-center text-sm font-medium text-moss">
+              <div className="w-10 h-10 rounded-full bg-success/20 flex items-center justify-center text-sm font-medium text-success">
                 {resource.owner.name.charAt(0)}
               </div>
               <div>
                 <div className="flex items-center gap-1.5">
-                  <span className="text-sm font-medium text-ink">{resource.owner.name.split(' ')[0]}</span>
+                  <span className="text-sm font-medium text-text-primary">{resource.owner.name.split(' ')[0]}</span>
                   {resource.owner.verified && (
-                    <ShieldCheck size={14} className="text-moss" />
+                    <ShieldCheck size={14} className="text-success" />
                   )}
                 </div>
-                <p className="text-xs text-ink/50">{resource.owner.department} · Year {resource.owner.year}</p>
+                <p className="text-xs text-text-secondary">{resource.owner.department} · Year {resource.owner.year}</p>
               </div>
             </div>
             <TrustBadge
@@ -229,7 +234,7 @@ export default function ResourceDetailPage() {
             />
             <Link
               to={`/trust/${resource.owner.id}`}
-              className="flex items-center gap-1 text-xs text-moss hover:text-moss/80 transition-colors duration-150"
+              className="flex items-center gap-1 text-xs text-accent hover:text-accent/80 transition-colors duration-150"
             >
               View full profile
               <ChevronRight size={12} />
@@ -241,21 +246,21 @@ export default function ResourceDetailPage() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ duration: 0.15 }}
-              className="rounded-[4px] border border-moss/20 bg-card p-4 space-y-2"
+              className="rounded-[4px] border border-success/20 bg-surface p-4 space-y-2"
             >
-              <h3 className="text-sm font-medium text-moss mb-2">Contact Details</h3>
+              <h3 className="text-sm font-medium text-success mb-2">Contact Details</h3>
               <div className="space-y-2 text-sm">
                 <div>
-                  <p className="text-xs text-ink/40">Full Name</p>
-                  <p className="text-ink">{resource.owner.name}</p>
+                  <p className="text-xs text-text-secondary">Full Name</p>
+                  <p className="text-text-primary">{resource.owner.name}</p>
                 </div>
                 <div>
-                  <p className="text-xs text-ink/40">Phone</p>
-                  <p className="font-mono text-ink">{resource.owner.phone}</p>
+                  <p className="text-xs text-text-secondary">Phone</p>
+                  <p className="font-mono text-text-primary">{resource.owner.phone}</p>
                 </div>
                 <div>
-                  <p className="text-xs text-ink/40">Email</p>
-                  <p className="text-ink">{resource.owner.email}</p>
+                  <p className="text-xs text-text-secondary">Email</p>
+                  <p className="text-text-primary">{resource.owner.email}</p>
                 </div>
               </div>
             </motion.div>
@@ -289,8 +294,8 @@ export default function ResourceDetailPage() {
           )}
 
           {isOwnResource && (
-            <div className="rounded-[4px] border border-brass/20 bg-brass/5 p-3 text-center">
-              <p className="text-xs text-brass font-medium">This is your listing</p>
+            <div className="rounded-[4px] border border-accent/20 bg-accent/5 p-3 text-center">
+              <p className="text-xs text-accent font-medium">This is your listing</p>
             </div>
           )}
         </div>

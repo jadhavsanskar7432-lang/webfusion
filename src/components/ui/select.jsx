@@ -23,19 +23,19 @@ export function Select({ value, onValueChange, options = [], placeholder = 'Sele
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="flex h-10 w-full items-center justify-between rounded-[4px] border border-ink/10 bg-card px-3 py-2 text-sm font-body text-ink focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-moss cursor-pointer"
+        className="flex h-10 w-full items-center justify-between rounded-[4px] border border-border-subtle bg-surface px-3 py-2 text-sm font-body text-text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent cursor-pointer"
         aria-expanded={isOpen}
         aria-haspopup="listbox"
       >
-        <span className={selectedOption ? 'text-ink' : 'text-ink/40'}>
+        <span className={selectedOption ? 'text-text-primary' : 'text-text-secondary'}>
           {selectedOption ? selectedOption.label : placeholder}
         </span>
-        <ChevronDown size={16} className={cn('text-ink/40 transition-transform duration-150', isOpen && 'rotate-180')} />
+        <ChevronDown size={16} className={cn('text-text-secondary transition-transform duration-150', isOpen && 'rotate-180')} />
       </button>
       {isOpen && (
         <div
           role="listbox"
-          className="absolute top-full left-0 z-40 mt-1 w-full rounded-[4px] border border-ink/10 bg-card py-1 shadow-lg"
+          className="absolute top-full left-0 z-40 mt-1 w-full rounded-[4px] border border-border-subtle bg-surface-raised py-1 shadow-lg"
         >
           {options.map((option) => (
             <button
@@ -49,8 +49,8 @@ export function Select({ value, onValueChange, options = [], placeholder = 'Sele
               className={cn(
                 'flex w-full items-center px-3 py-2 text-sm text-left transition-colors duration-150 cursor-pointer',
                 value === option.value
-                  ? 'bg-moss/10 text-moss'
-                  : 'text-ink hover:bg-ink/5'
+                  ? 'bg-accent/10 text-accent'
+                  : 'text-text-primary hover:bg-text-primary/5'
               )}
             >
               {option.label}

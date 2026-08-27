@@ -1,150 +1,128 @@
+import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
-import { useState } from 'react'
-import { CircleDot, Search, BarChart3, Heart, PlusCircle, User, Menu, X, ChevronDown } from 'lucide-react'
-import { useExchangeStore } from '@/store/exchangeStore'
-import { users } from '@/data/users'
+import { ChevronDown, Sun, Moon } from 'lucide-react'
 import { cn } from '@/lib/cn'
+import { useExchangeStore } from '@/store/exchangeStore'
+import { useThemeStore } from '@/store/themeStore'
+import { users } from '@/data/users'
 
 const navLinks = [
-  { to: '/', label: 'Home', icon: Search },
-  { to: '/discover', label: 'Discover', icon: CircleDot },
-  { to: '/compare', label: 'Compare', icon: BarChart3 },
-  { to: '/wishlist', label: 'Wishlist', icon: Heart },
-  { to: '/sell', label: 'Sell', icon: PlusCircle },
+  { to: '/', label: 'Home' },
+  { to: '/discover', label: 'Discover' },
+  { to: '/compare', label: 'Compare' },
 ]
 
 export function Navbar() {
   const location = useLocation()
-  const [mobileOpen, setMobileOpen] = useState(false)
-  const [userDropdownOpen, setUserDropdownOpen] = useState(false)
   const { currentUser, setCurrentUser } = useExchangeStore()
+  const { theme, toggleTheme } = useThemeStore()
+  const [userMenuOpen, setUserMenuOpen] = useState(false)
+
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', theme === 'dark')
+  }, [theme])
 
   return (
-    <nav className="sticky top-0 z-50 bg-card/95 backdrop-blur-sm border-b border-ink/10">
-      <div className="w-full px-6 flex items-center justify-between h-14">
-        <Link to="/" className="flex items-center gap-2 hover:opacity-80 transition-opacity duration-150">
-          <CircleDot size={24} className="text-moss" />
-          <span className="font-display text-lg font-semibold text-ink">Campus Circular</span>
+    <header className="sticky top-0 z-50 bg-background/80 backdrop-blur-sm border-b border-border-subtle">
+      <div className="container flex items-center justify-between h-14">
+        <Link to="/" className="flex items-center gap-2">
+          <div className="w-7 h-7 rounded-full border-2 border-accent flex items-center justify-center">
+            <div className="w-2 h-2 rounded-full bg-accent" />
+          </div>
+          <span className="font-display text-lg font-semibold text-text-primary">
+            Campus Circular
+          </span>
         </Link>
 
-        <div className="hidden md:flex items-center gap-6">
-          {navLinks.map((link) => {
-            const Icon = link.icon
-            const isActive = location.pathname === link.to
+        <nav className="hidden sm:flex items-center gap-4">
+          {navLinks.map(({ to, label }) => {
+            const isActive = location.pathname === to
             return (
               <Link
-                key={link.to}
-                to={link.to}
+                key={to}
+                to={to}
                 className={cn(
-                  'flex items-center gap-2 px-3 py-1.5 rounded-[4px] text-base transition-colors duration-150',
+                  'text-sm font-medium transition-colors duration-150',
                   isActive
-                    ? 'bg-moss/10 text-moss font-medium'
-                    : 'text-ink/60 hover:text-ink hover:bg-ink/5'
+                    ? 'text-accent'
+                    : 'text-text-secondary hover:text-text-primary'
                 )}
               >
-                <Icon size={16} />
-                {link.label}
+                {label}
               </Link>
             )
           })}
-        </div>
+        </nav>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-1">
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-full hover:bg-text-primary/5 transition-colors duration-150 cursor-pointer text-text-secondary mr-1"
+            aria-label={theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode'}
+            id="theme-toggle"
+          >
+            {theme === 'dark' ? <Sun size={16} /> : <Moon size={16} />}
+          </button>
+
           <div className="relative">
             <button
-              onClick={() => setUserDropdownOpen(!userDropdownOpen)}
-              className="flex items-center gap-2 px-2 py-1 rounded-[4px] hover:bg-ink/5 transition-colors duration-150 cursor-pointer"
-              aria-label="Switch user"
+              onClick={() => setUserMenuOpen(!userMenuOpen)}
+              className="group flex items-center gap-2 px-2 py-1.5 rounded-[4px] hover:bg-text-primary/5 transition-colors duration-150 cursor-pointer"
+              aria-expanded={userMenuOpen}
+              aria-haspopup="true"
             >
-              <div className="w-7 h-7 rounded-full bg-moss/20 flex items-center justify-center text-xs font-medium text-moss">
+              <div className="w-7 h-7 rounded-full bg-accent/20 flex items-center justify-center text-xs font-medium text-accent">
                 {currentUser.name.charAt(0)}
               </div>
-              <span className="hidden sm:block text-sm text-ink/80 max-w-[120px] truncate">
+              <span className="hidden sm:inline text-sm text-text-primary font-medium">
                 {currentUser.name.split(' ')[0]}
               </span>
-              <ChevronDown size={14} className="text-ink/40" />
+              <ChevronDown
+                size={14}
+                className={cn(
+                  'opacity-0 group-hover:opacity-100 text-text-secondary transition-all duration-150',
+                  userMenuOpen && 'opacity-100 rotate-180'
+                )}
+              />
             </button>
 
-            {userDropdownOpen && (
+            {userMenuOpen && (
               <>
-                <div className="fixed inset-0 z-40" onClick={() => setUserDropdownOpen(false)} />
-                <div className="absolute right-0 top-full mt-1 w-56 rounded-[4px] border border-ink/10 bg-card py-1 shadow-lg z-50">
-                  <div className="px-3 py-2 border-b border-ink/5">
-                    <p className="text-[11px] text-ink/40 uppercase tracking-wider">Logged in as</p>
-                  </div>
+                <div className="fixed inset-0 z-30" onClick={() => setUserMenuOpen(false)} />
+                <div className="absolute right-0 top-full mt-1 z-40 w-52 rounded-[4px] border border-border-subtle bg-surface-raised shadow-lg py-1">
+                  <p className="px-3 py-1.5 text-[10px] uppercase tracking-wider text-text-secondary/60">
+                    Switch User
+                  </p>
                   {users.map((user) => (
                     <button
                       key={user.id}
                       onClick={() => {
                         setCurrentUser(user)
-                        setUserDropdownOpen(false)
+                        setUserMenuOpen(false)
                       }}
                       className={cn(
                         'flex items-center gap-2 w-full px-3 py-2 text-sm text-left transition-colors duration-150 cursor-pointer',
                         currentUser.id === user.id
-                          ? 'bg-moss/10 text-moss'
-                          : 'text-ink hover:bg-ink/5'
+                          ? 'bg-accent/10 text-accent'
+                          : 'text-text-primary hover:bg-text-primary/5'
                       )}
                     >
-                      <div className="w-6 h-6 rounded-full bg-moss/20 flex items-center justify-center text-[10px] font-medium text-moss shrink-0">
+                      <div className="w-6 h-6 rounded-full bg-accent/20 flex items-center justify-center text-[10px] font-medium text-accent">
                         {user.name.charAt(0)}
                       </div>
                       <div className="flex-1 min-w-0">
-                        <p className="text-sm truncate">{user.name}</p>
-                        <p className="text-[10px] text-ink/40">{user.department}</p>
+                        <p className="truncate font-medium">{user.name}</p>
+                        <p className="text-[10px] text-text-secondary truncate">{user.department}</p>
                       </div>
                     </button>
                   ))}
-                  <div className="border-t border-ink/5 mt-1 pt-1">
-                    <Link
-                      to={`/trust/${currentUser.id}`}
-                      onClick={() => setUserDropdownOpen(false)}
-                      className="flex items-center gap-2 px-3 py-2 text-sm text-ink/60 hover:text-ink hover:bg-ink/5 transition-colors duration-150"
-                    >
-                      <User size={14} />
-                      View Profile
-                    </Link>
-                  </div>
                 </div>
               </>
             )}
           </div>
-
-          <button
-            className="md:hidden p-1.5 rounded-[4px] hover:bg-ink/5 transition-colors duration-150 cursor-pointer"
-            onClick={() => setMobileOpen(!mobileOpen)}
-            aria-label="Toggle navigation"
-          >
-            {mobileOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
         </div>
       </div>
-
-      {mobileOpen && (
-        <div className="md:hidden border-t border-ink/5 bg-card py-2 px-4">
-          {navLinks.map((link) => {
-            const Icon = link.icon
-            const isActive = location.pathname === link.to
-            return (
-              <Link
-                key={link.to}
-                to={link.to}
-                onClick={() => setMobileOpen(false)}
-                className={cn(
-                  'flex items-center gap-2 px-3 py-2.5 rounded-[4px] text-[15px] transition-colors duration-150',
-                  isActive
-                    ? 'bg-moss/10 text-moss font-medium'
-                    : 'text-ink/60 hover:text-ink'
-                )}
-              >
-                <Icon size={16} />
-                {link.label}
-              </Link>
-            )
-          })}
-        </div>
-      )}
-    </nav>
+    </header>
   )
 }
 

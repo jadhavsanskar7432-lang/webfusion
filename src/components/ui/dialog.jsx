@@ -31,7 +31,7 @@ export function Dialog({ open, onClose, children, className }) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
       <div
-        className="fixed inset-0 bg-ink/40 transition-opacity duration-150"
+        className="fixed inset-0 bg-text-primary/40 transition-opacity duration-150"
         onClick={onClose}
         aria-hidden="true"
       />
@@ -40,13 +40,13 @@ export function Dialog({ open, onClose, children, className }) {
         role="dialog"
         aria-modal="true"
         className={cn(
-          'relative z-50 w-full max-w-lg max-h-[85vh] overflow-y-auto rounded-[4px] border border-ink/10 bg-card p-6 shadow-lg',
+          'relative z-50 w-full max-w-lg max-h-[85vh] overflow-y-auto rounded-[4px] border border-border-subtle bg-surface-raised p-6 shadow-lg',
           className
         )}
       >
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 text-ink/40 hover:text-ink transition-colors duration-150 cursor-pointer"
+          className="absolute top-4 right-4 text-text-secondary hover:text-text-primary transition-colors duration-150 cursor-pointer"
           aria-label="Close dialog"
         >
           <X size={18} />
@@ -59,7 +59,7 @@ export function Dialog({ open, onClose, children, className }) {
 
 export function DialogTitle({ children, className }) {
   return (
-    <h2 className={cn('font-display text-lg font-medium text-ink mb-2', className)}>
+    <h2 className={cn('font-display text-lg font-medium text-text-primary mb-2', className)}>
       {children}
     </h2>
   )
@@ -67,7 +67,7 @@ export function DialogTitle({ children, className }) {
 
 export function DialogDescription({ children, className }) {
   return (
-    <p className={cn('text-sm text-ink/60 mb-4', className)}>
+    <p className={cn('text-sm text-text-secondary mb-4', className)}>
       {children}
     </p>
   )
